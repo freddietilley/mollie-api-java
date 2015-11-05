@@ -64,7 +64,13 @@ public class MollieClient {
 	public String apiEndpoint() { return _apiEndpoint; }
 	public void setApiEndpoint(String endpoint) { _apiEndpoint = endpoint; }
 
-	public void setApiKey(String apikey) { _apiKey = apikey; }
+	public void setApiKey(String apikey) throws MollieException
+	{
+		if (!apikey.matches("^(?:live|test)_\\w+$")) {
+			throw new MollieException("Invalid api key: \"" + apikey + "\". An API key must start with \"test_\" or \"live_\".");
+		}
+		_apiKey = apikey;
+	}
 
 	public String performHttpCall(String method, String apiMethod) {
 		return performHttpCall(method, apiMethod, null);
