@@ -1,0 +1,34 @@
+# Build files
+*.class
+target/
+build/
+
+# Gradle
+.gradle
+gradle/
+gradlew*
+
+# Release files
+release.properties
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# IDE files (Eclipse)
+.settings
+.project
+.classpath
+
+# IDE files (IntelliJ)
+.idea/
+*.iml
+
+# Vim
+*.swp
+*.swn
+
+# OSX
+.DS_Store
+.AppleDouble
