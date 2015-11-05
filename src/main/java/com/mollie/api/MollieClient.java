@@ -15,7 +15,8 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 import com.mollie.api.resource.Issuers;
@@ -83,23 +84,15 @@ public class MollieClient {
 
 		if (uri != null)
 		{
-			//CloseableHttpClient httpclient = HttpClients.createDefault();
-			DefaultHttpClient httpclient = new DefaultHttpClient();
+			CloseableHttpClient httpclient = HttpClientBuilder.create().build();
 			HttpRequestBase action = null;
-			//CloseableHttpResponse response = null;
 			HttpResponse response = null;
 
 			if (httpBody != null)
 			{
-				//EntityBuilder builder = EntityBuilder.create();
 				StringEntity entity = new StringEntity(httpBody, ContentType.APPLICATION_JSON);
 
-				//builder.setContentType(ContentType.APPLICATION_JSON);
-				//builder.setContentEncoding("UTF-8");
-				//builder.setText(httpBody);
-
 				action = new HttpPost(uri);
-				//((HttpPost)action).setEntity(builder.build());
 				((HttpPost)action).setEntity(entity);
 			} else {
 				action = new HttpGet(uri);
@@ -123,7 +116,11 @@ public class MollieClient {
 				e.printStackTrace();
 			}
 
-			httpclient.getConnectionManager().shutdown();
+			try {
+				httpclient.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return result;
