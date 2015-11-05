@@ -65,28 +65,9 @@ abstract public class BaseResource <T> {
 			return null;
 	}
 
-	private void _checkResponseResult(JsonObject result, String body) throws MollieException
-	{
-		if (result == null)
-		{
-			throw new MollieException("Unable to decode Mollie response: \""+body+"\"");
-		} else {
-			if (result.get("error") != null)
-			{
-				JsonObject error = result.get("error").getAsJsonObject();
-				String type = error.get("type").getAsString();
-				String message = error.get("message").getAsString();
-				
-				throw new MollieException(type, message);
-			}
-		}
-	}
-
 	private T rest_create(String restResource, String body) throws MollieException
 	{
 		JsonObject result = this.performApiCall(REST_CREATE, restResource, body);
-
-		_checkResponseResult(result, body);
 
 		if (result != null)
 		{
@@ -102,8 +83,6 @@ abstract public class BaseResource <T> {
 		String method = restResource + "/" + id;
 		JsonObject result = this.performApiCall(REST_READ, method);
 
-		_checkResponseResult(result, null);
-
 		if (result != null)
 		{
 			Gson gson = new Gson();
@@ -118,8 +97,6 @@ abstract public class BaseResource <T> {
 		JsonObject result = this.performApiCall(REST_LIST, restResource);
 		ArrayList<T> arraylist = new ArrayList<T>();
 
-		_checkResponseResult(result, null);
-
 		if (result != null)
 		{
 			Gson gson = new Gson();
@@ -131,21 +108,41 @@ abstract public class BaseResource <T> {
 		return arraylist;
 	}
 
-	protected JsonObject performApiCall(String httpMethod, String apiMethod) {
+	protected JsonObject performApiCall(String httpMethod, String apiMethod) throws MollieException {
 		return performApiCall(httpMethod, apiMethod, null);
 	}
 
 	protected JsonObject performApiCall(String httpMethod,
-									String apiMethod,
-									String httpBody)
+										String apiMethod,
+										String httpBody) throws MollieException
 	{
 		String result = _api.performHttpCall(httpMethod, apiMethod, httpBody);
 		JsonParser parser = new JsonParser();
+		JsonElement element = null;
 		JsonObject object = null;
 
-		if ((object = parser.parse(result).getAsJsonObject()) != null)
-			return object;
-		else
-			return null;
+		try {
+			if ((element = parser.parse(result)) != null) {
+				if (element.isJsonObject()) {
+					object = element.getAsJsonObject();
+				}
+			}
+		} catch (com.google.gson.JsonParseException e) {}
+
+		if (object == null)
+		{
+			throw new MollieException("Unable to decode Mollie response: \""+result+"\"");
+		} else {
+			if (object.get("error") != null)
+			{
+				JsonObject error = object.get("error").getAsJsonObject();
+				String type = error.get("type").getAsString();
+				String message = error.get("message").getAsString();
+
+				throw new MollieException(type, message);
+			}
+		}
+
+		return object;
 	}
 }
