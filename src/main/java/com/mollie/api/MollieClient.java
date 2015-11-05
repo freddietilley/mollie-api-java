@@ -50,11 +50,14 @@ public class MollieClient {
 	protected String _apiEndpoint = API_ENDPOINT;
 	protected String _apiKey;
 
-	public MollieClient()
-	{
-		_methods = new Methods(this);
-		_payments = new Payments(this);
-		_issuers = new Issuers(this);
+	public MollieClient() {
+		this.initResources(this);
+	}
+
+	protected void initResources(MollieClient client) {
+		_methods = new Methods(client);
+		_payments = new Payments(client);
+		_issuers = new Issuers(client);
 	}
 
 	public Methods methods() { return _methods; }
