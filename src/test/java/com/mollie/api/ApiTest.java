@@ -1,5 +1,7 @@
 package com.mollie.api;
 
+import com.mollie.api.objects.*;
+
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
@@ -7,6 +9,10 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertFalse;
 import org.junit.rules.ExpectedException;
 
 public class ApiTest {
@@ -80,7 +86,6 @@ public class ApiTest {
 			verify(api, times(1)).performHttpCall(MollieClient.HTTP_POST,
 				"payments",
 				msgBody);
-			throw e;
 		}
 	}
 }
