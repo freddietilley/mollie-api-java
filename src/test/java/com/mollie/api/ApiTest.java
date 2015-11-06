@@ -88,4 +88,23 @@ public class ApiTest {
 				msgBody);
 		}
 	}
+
+	/*
+	@Test
+	public void testCreatePaymentJsonFails() throws MollieException
+	{
+		thrown.expect(MollieException.class);
+		thrown.expectMessage("Error executing API call (request): Unauthorized request.");
+
+		try {
+			api.payments().create(new BigDecimal(100),
+				"Order #1337 24 Roundhousekicks \x80 15,-",
+				"http://www.chucknorris.rhk/return.php", null);
+		} catch (MollieException e) {
+			verify(api, never()).performHttpCall(anyString(),
+				anyString(), anyString());
+			throw e;
+		}
+	}
+	*/
 }
