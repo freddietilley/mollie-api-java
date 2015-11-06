@@ -139,7 +139,8 @@ abstract public class BaseResource <T> {
 				String type = error.get("type").getAsString();
 				String message = error.get("message").getAsString();
 
-				throw new MollieException(type, message);
+				throw new MollieException("Error executing API call (" + type +"): " +
+					message + ".");
 			}
 		}
 
