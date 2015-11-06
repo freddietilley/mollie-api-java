@@ -94,7 +94,8 @@ abstract public class BaseResource <T> {
 
 	private ArrayList<T> rest_list(String restResource, int offset, int limit) throws MollieException
 	{
-		JsonObject result = this.performApiCall(REST_LIST, restResource);
+		String apiPath = restResource + "?offset=" + offset + "&count=" + limit;
+		JsonObject result = this.performApiCall(REST_LIST, apiPath);
 		ArrayList<T> arraylist = new ArrayList<T>();
 
 		if (result != null)
