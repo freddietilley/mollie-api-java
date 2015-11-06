@@ -37,11 +37,23 @@ public class ApiTest {
 	@Test
 	public void testCreatePaymentFailsEmptyHttpBody() throws MollieException
 	{
+		String msgBody = "{\"amount\":100,\"redirectUrl\":\"http://www.chucknorris.rhk/return.php\",\"description\":\"Order #1337 24 Roundhousekicks\"}";
+
 		thrown.expect(MollieException.class);
 		thrown.expectMessage("Unable to decode Mollie response: \"\"");
 
-		doReturn("").when(api).performHttpCall(MollieClient.HTTP_POST, "payments", "{\"amount\":100,\"redirectUrl\":\"http://www.chucknorris.rhk/return.php\",\"description\":\"Order #1337 24 Roundhousekicks\"}");
+		doReturn("").when(api).performHttpCall(
+			MollieClient.HTTP_POST, "payments", msgBody);
 
-		api.payments().create(new BigDecimal(100), "Order #1337 24 Roundhousekicks", "http://www.chucknorris.rhk/return.php", null);
+		try {
+			api.payments().create(new BigDecimal(100),
+				"Order #1337 24 Roundhousekicks",
+				"http://www.chucknorris.rhk/return.php", null);
+		} catch (MollieException e) {
+			verify(api, times(1)).performHttpCall(MollieClient.HTTP_POST,
+				"payments",
+				msgBody);
+			throw e;
+		}
 	}
 }
