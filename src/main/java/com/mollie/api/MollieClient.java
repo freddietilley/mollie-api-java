@@ -104,14 +104,20 @@ public class MollieClient {
 		_apiKey = apikey;
 	}
 
-	public String performHttpCall(String method, String apiMethod) {
+	public String performHttpCall(String method, String apiMethod) throws MollieException
+	{
 		return performHttpCall(method, apiMethod, null);
 	}
 
-	public String performHttpCall(String method, String apiMethod, String httpBody)
+	public String performHttpCall(String method, String apiMethod, String httpBody) throws MollieException
 	{
 		URI uri = null;
 		String result = null;
+
+		if (_apiKey == null || _apiKey.trim().equals(""))
+		{
+			throw new MollieException("You have not set an api key. Please use setApiKey() to set the API key.");
+		}
 
 		try {
 			URIBuilder ub = new URIBuilder(this._apiEndpoint + "/" + API_VERSION + "/" + apiMethod);

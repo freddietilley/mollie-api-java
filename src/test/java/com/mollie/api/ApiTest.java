@@ -72,6 +72,15 @@ public class ApiTest {
 	}
 
 	@Test
+	public void testNotSettingApiKeyGivesException() throws MollieException
+	{
+		api = new MollieClient();
+		thrown.expect(MollieException.class);
+		thrown.expectMessage("You have not set an api key. Please use setApiKey() to set the API key.");
+		api.payments().all();
+	}
+
+	@Test
 	public void testCreatePaymentFailsEmptyHttpBody() throws MollieException
 	{
 		String msgBody = "{\"amount\":100,\"redirectUrl\":\"http://www.chucknorris.rhk/return.php\",\"description\":\"Order #1337 24 Roundhousekicks\"}";
