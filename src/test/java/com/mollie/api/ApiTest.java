@@ -56,4 +56,28 @@ public class ApiTest {
 			throw e;
 		}
 	}
+
+	@Test
+	public void testCreatePaymentFailsError() throws MollieException
+	{
+		String msgReturn = "{ \"error\":{ \"type\":\"request\", \"message\":\"Unauthorized request\", \"links\":{ \"documentation\":\"https://www.mollie.nl/api/docs/\" } } }";
+		String msgBody = "{\"amount\":100,\"redirectUrl\":\"http://www.chucknorris.rhk/return.php\",\"description\":\"Order #1337 24 Roundhousekicks\"}";
+
+		thrown.expect(MollieException.class);
+		thrown.expectMessage("Error executing API call (request): Unauthorized request.");
+
+		doReturn(msgReturn).when(api).performHttpCall(
+			MollieClient.HTTP_POST, "payments", msgBody);
+
+		try {
+			api.payments().create(new BigDecimal(100),
+				"Order #1337 24 Roundhousekicks",
+				"http://www.chucknorris.rhk/return.php", null);
+		} catch (MollieException e) {
+			verify(api, times(1)).performHttpCall(MollieClient.HTTP_POST,
+				"payments",
+				msgBody);
+			throw e;
+		}
+	}
 }
