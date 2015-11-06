@@ -50,10 +50,11 @@ public class ApiTest {
 				"Order #1337 24 Roundhousekicks",
 				"http://www.chucknorris.rhk/return.php", null);
 		} catch (MollieException e) {
+			throw e;
+		} finally {
 			verify(api, times(1)).performHttpCall(MollieClient.HTTP_POST,
 				"payments",
 				msgBody);
-			throw e;
 		}
 	}
 
@@ -74,6 +75,8 @@ public class ApiTest {
 				"Order #1337 24 Roundhousekicks",
 				"http://www.chucknorris.rhk/return.php", null);
 		} catch (MollieException e) {
+			throw e;
+		} finally {
 			verify(api, times(1)).performHttpCall(MollieClient.HTTP_POST,
 				"payments",
 				msgBody);
