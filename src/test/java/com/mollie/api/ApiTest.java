@@ -5,6 +5,7 @@ import com.mollie.api.objects.*;
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -163,6 +164,57 @@ public class ApiTest {
 		}
 
 		assertNotNull(payment);
+		assertEquals("tr_d0b0E3EA3v", payment.id);
+		assertEquals("Order #1225", payment.description);
+		assertNull("Order #1225", payment.method);
+		assertEquals("2013-11-21T09:57:08.0Z", payment.createdDatetime);
+		assertEquals(Payment.STATUS_OPEN, payment.status);
+		assertFalse(payment.isPaid());
+		assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v",
+			payment.getPaymentUrl());
+		assertNull(payment.metadata);
+	}
+
+	@Test
+	public void testGetPaymentsWorksCorrectly() throws MollieException
+	{
+		String msgReturn = "{"+
+		"\"totalCount\":1," +
+		"\"offset\":0," +
+		"\"data\":[" +
+		"  {" +
+		"    \"id\":\"tr_d0b0E3EA3v\",\"mode\":\"test\", \"createdDatetime\":\"2013-11-21T09:57:08.0Z\", \"status\":\"open\", \"amount\":100, \"description\":\"Order #1225\", \"method\":null, \"details\":null, \"links\":{ \"paymentUrl\":\"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v\" }" +
+		"  }" +
+		"]," +
+		"\"links\":{" +
+		"  \"first\":null," +
+		"  \"previous\":null," +
+		"  \"next\":null," +
+		"  \"last\":null" +
+		"}" +
+		"}";
+		String msgBody = "payments?offset=0&count=0";
+
+		ArrayList<Payment> collection = null;
+		Payment payment = null;
+
+		doReturn(msgReturn).when(api).performHttpCall(
+			MollieClient.HTTP_GET, msgBody, null);
+
+		try {
+			collection = api.payments().all();
+		} catch (MollieException e) {
+			throw e;
+		} finally {
+			verify(api, times(1)).performHttpCall(MollieClient.HTTP_GET,
+				msgBody, null);
+		}
+
+		assertNotNull(collection);
+		assertEquals(collection.size(), 1);
+
+		payment = collection.get(0);
+
 		assertEquals("tr_d0b0E3EA3v", payment.id);
 		assertEquals("Order #1225", payment.description);
 		assertNull("Order #1225", payment.method);
