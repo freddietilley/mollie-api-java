@@ -154,10 +154,8 @@ public class MollieClient {
 				IOUtils.copy(entity.getContent(), sw, "UTF-8");
 				result = sw.toString();
 				EntityUtils.consume(entity);
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				throw new MollieException("Unable to communicate with Mollie");
 			}
 
 			try {
