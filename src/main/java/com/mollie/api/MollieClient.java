@@ -40,6 +40,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
@@ -132,14 +133,18 @@ public class MollieClient {
 			HttpRequestBase action = null;
 			HttpResponse response = null;
 
-			if (httpBody != null)
-			{
-				StringEntity entity = new StringEntity(httpBody, ContentType.APPLICATION_JSON);
-
+			if (method.equals(HTTP_POST)) {
 				action = new HttpPost(uri);
-				((HttpPost)action).setEntity(entity);
+			} else if (method.equals(HTTP_DELETE)) {
+				action = new HttpDelete(uri);
 			} else {
 				action = new HttpGet(uri);
+			}
+
+			if (httpBody != null && action instanceof HttpPost)
+			{
+				StringEntity entity = new StringEntity(httpBody, ContentType.APPLICATION_JSON);
+				((HttpPost)action).setEntity(entity);
 			}
 
 			action.setHeader("Authorization", "Bearer " + this._apiKey);
