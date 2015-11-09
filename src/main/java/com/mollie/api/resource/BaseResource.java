@@ -29,6 +29,8 @@
  */
 package com.mollie.api.resource;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 
@@ -73,6 +75,27 @@ abstract public class BaseResource <T> {
 	     ParameterizedType parameterizedType = (ParameterizedType)getClass()
 	                                                 .getGenericSuperclass();
 	     return (Class<T>) parameterizedType.getActualTypeArguments()[0];
+	}
+
+	protected void copyInto(T src, T dst) {
+		Field[] fromFields = returnedClass().getDeclaredFields();
+		Object value = null;
+
+		try {
+			for (Field field : fromFields) {
+				int modifiers = field.getModifiers();
+
+				if ((modifiers & Modifier.PUBLIC) == Modifier.PUBLIC &&
+					(modifiers & Modifier.FINAL) != Modifier.FINAL &&
+					(modifiers & Modifier.STATIC) != Modifier.STATIC)
+				{
+					value = field.get(src);
+					field.set(dst, value);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public ArrayList<T> all() throws MollieException { return this.all(0, 0); }
