@@ -27,63 +27,27 @@
  * @copyright	Impending
  * @link		http://www.impending.nl
  */
-package com.mollie.api.resource;
+package com.mollie.api.objects;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.mollie.api.MollieClient;
-import com.mollie.api.MollieException;
-import com.mollie.api.objects.Payment;
-import com.mollie.api.objects.PaymentRefund;
+public class PaymentRefund {
+	public static final String STATUS_PENDING = "pending";
+	public static final String STATUS_PROCESSING = "processing";
+	public static final String STATUS_REFUNDED = "refunded";
 
-public class Payments extends BaseResource<Payment> {
-	public Payments(MollieClient api) {
-		super(api);
-	}
+	public String id;
 
-	public Payment create(BigDecimal amount, String description,
-			String redirectUrl, HashMap<String, Object> meta) throws MollieException
-	{
-		return create(amount, null, description, redirectUrl, meta);
-	}
+	public BigDecimal amount;
 
-	public Payment create(BigDecimal amount, String method, String description,
-			String redirectUrl, HashMap<String, Object> meta) throws MollieException
-	{
-		HashMap<String, Object> payData = new HashMap<String, Object>();
+	public Payment payment;
 
-		if (amount != null)
-			payData.put("amount", amount);
-		if (method != null)
-			payData.put("method", method);
-		if (description != null)
-			payData.put("description", description);
-		if (redirectUrl != null)
-			payData.put("redirectUrl", redirectUrl);
+	public String refundedDatetime;
 
-		if (meta != null)
-			payData.put("metadata", meta);
+	public String status;
 
-		return this.create(payData);
-	}
-
-	public PaymentRefund refund(Payment payment) throws MollieException
-	{
-		String method = this.getResourceName() + "/" + payment.id + "/refunds";
-		JsonObject result = this.performApiCall(REST_CREATE, method);
-
-		if (result != null) {
-			Gson gson = new Gson();
-			PaymentRefund refund = gson.fromJson(result, PaymentRefund.class);
-
-			if (refund != null && refund.payment != null) {
-				this.copyInto(refund.payment, payment);
-			}
-		}
-
-		return null;
-	}
+	public boolean isPending() { return this.status.equals(STATUS_PENDING); }
+	public boolean isProcessing() { return this.status.equals(STATUS_PROCESSING); }
+	public boolean isTransferred() { return this.status.equals(STATUS_REFUNDED); }
 }
+

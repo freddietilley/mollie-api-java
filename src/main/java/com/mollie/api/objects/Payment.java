@@ -37,12 +37,18 @@ public class Payment {
 	public static final String STATUS_CANCELLED = "cancelled";
 	public static final String STATUS_EXPIRED = "expired";
 	public static final String STATUS_PAID = "paid";
+	public static final String STATUS_PAIDOUT = "paidout";
+	public static final String STATUS_REFUNDED = "refunded";
 
 	public String id;
 
 	public String mode;
 
 	public BigDecimal amount;
+
+	public BigDecimal amountRefunded;
+
+	public BigDecimal amountRemaining;
 
 	public String description;
 
@@ -66,6 +72,8 @@ public class Payment {
 
 	public boolean isOpen() { return this.status.equals(STATUS_OPEN); }
 
+	public boolean isRefunded() { return this.status.equals(STATUS_REFUNDED); }
+
 	public boolean isPaid() {
 		return (this.paidDatetime != null && !this.paidDatetime.trim().isEmpty());
 	}
@@ -83,6 +91,28 @@ public class Payment {
 			return links.paymentUrl;
 		else
 			return null;
+	}
+
+	public boolean canBeRefunded() {
+		return (this.amountRemaining != null);
+	}
+
+	public boolean canBePartiallyRefunded() {
+		return (this.canBeRefunded() && !(this.method.equals(Method.CREDITCARD)));
+	}
+
+	public BigDecimal getAmountRefunded() {
+		if (this.amountRefunded != null) {
+			return this.amountRefunded;
+		}
+		return new BigDecimal(0);
+	}
+
+	public BigDecimal getAmountRemaining() {
+		if (this.amountRemaining != null) {
+			return this.amountRemaining;
+		}
+		return new BigDecimal(0);
 	}
 
 	public static class Links

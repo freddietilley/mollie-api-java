@@ -37,7 +37,6 @@ import java.net.URISyntaxException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpDelete;
@@ -49,9 +48,11 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
+import com.mollie.api.objects.Payment;
 import com.mollie.api.resource.Issuers;
 import com.mollie.api.resource.Methods;
 import com.mollie.api.resource.Payments;
+import com.mollie.api.resource.PaymentsRefunds;
 
 public class MollieClient {
 	/**
@@ -93,6 +94,9 @@ public class MollieClient {
 	public Methods methods() { return _methods; }
 	public Payments payments() { return _payments; }
 	public Issuers issuers() { return _issuers; }
+	public PaymentsRefunds refundsWithPayment(Payment payment) {
+		return new PaymentsRefunds(this, payment.id);
+	}
 
 	public String apiEndpoint() { return _apiEndpoint; }
 	public void setApiEndpoint(String endpoint) { _apiEndpoint = endpoint; }
