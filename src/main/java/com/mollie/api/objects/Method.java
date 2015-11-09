@@ -36,6 +36,7 @@ public class Method {
 	public static final String PAYSAFECARD	= "paysafecard";
 	public static final String CREDITCARD	= "creditcard";
 	public static final String MISTERCASH	= "mistercash";
+	public static final String BANKTRANSFER	= "banktransfer";
 	public static final String PAYPAL		= "paypal";
 
 	private String id;
