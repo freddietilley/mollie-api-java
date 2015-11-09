@@ -32,10 +32,11 @@ package com.mollie.api.objects;
 import java.math.BigDecimal;
 
 public class Method {
-	public static final String IDEAL = "ideal";
-	public static final String PAYSAFECARD = "paysafecard";
-	public static final String CREDITCARD = "creditcard";
-	public static final String MISTERCASH = "mistercash";
+	public static final String IDEAL		= "ideal";
+	public static final String PAYSAFECARD	= "paysafecard";
+	public static final String CREDITCARD	= "creditcard";
+	public static final String MISTERCASH	= "mistercash";
+	public static final String PAYPAL		= "paypal";
 
 	private String id;
 	private String description;
