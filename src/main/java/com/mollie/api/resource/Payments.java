@@ -82,6 +82,8 @@ public class Payments extends BaseResource<Payment> {
 			if (refund != null && refund.payment != null) {
 				this.copyInto(refund.payment, payment);
 			}
+
+			return refund;
 		}
 
 		return null;
