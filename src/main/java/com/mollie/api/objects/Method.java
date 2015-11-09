@@ -40,6 +40,7 @@ public class Method {
 	private String id;
 	private String description;
 	private Amount amount;
+	private ImageGroup image;
 
 	public Method() {
 	}
@@ -60,6 +61,8 @@ public class Method {
 
 	public Amount amount() { return amount; }
 
+	public ImageGroup image() { return image; }
+
 	public static class Amount {
 		private BigDecimal minimum;
 		private BigDecimal maximum;
@@ -67,4 +70,12 @@ public class Method {
 		public BigDecimal minimum() { return minimum; }
 		public BigDecimal maximum() { return maximum; }
 	};
+
+	public static class ImageGroup {
+		private String normal;
+		private String bigger;
+
+		public String normal() { return normal; }
+		public String bigger() { return bigger; }
+	}
 }
