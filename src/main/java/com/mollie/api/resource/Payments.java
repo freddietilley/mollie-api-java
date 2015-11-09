@@ -70,10 +70,26 @@ public class Payments extends BaseResource<Payment> {
 		return this.create(payData);
 	}
 
-	public PaymentRefund refund(Payment payment) throws MollieException
+	public PaymentRefund refund(Payment payment) throws MollieException {
+		return refund(payment, null);
+	}
+
+	public PaymentRefund refund(Payment payment, BigDecimal amount) throws MollieException
 	{
 		String method = this.getResourceName() + "/" + payment.id + "/refunds";
-		JsonObject result = this.performApiCall(REST_CREATE, method);
+		JsonObject result = null;
+		String methodBody = null;
+
+		if (amount != null)
+		{
+			Gson gson = new Gson();
+			HashMap<String, Object> refundData = new HashMap<String, Object>();
+
+			refundData.put("amount", amount);
+			methodBody = gson.toJson(refundData);
+		}
+
+		result = this.performApiCall(REST_CREATE, method, methodBody);
 
 		if (result != null) {
 			Gson gson = new Gson();
