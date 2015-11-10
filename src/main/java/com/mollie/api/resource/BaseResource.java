@@ -107,16 +107,16 @@ abstract public class BaseResource <T> {
 		return this.all(0, 0);
 	}
 
+	public ArrayList<T> all(Map<String,String> options) throws MollieException {
+		return this.all(0, 0, options);
+	}
+
 	public ArrayList<T> all(int offset, int limit) throws MollieException {
-		return this.rest_list(this.getResourceName(), offset, limit, null);
+		return this.all(offset, limit, null);
 	}
 
 	public ArrayList<T> all(int offset, int limit, Map<String,String> options) throws MollieException {
 		return this.rest_list(this.getResourceName(), offset, limit, options);
-	}
-
-	public ArrayList<T> all(Map<String,String> options) throws MollieException {
-		return this.rest_list(this.getResourceName(), 0, 0, options);
 	}
 
 	public T get(String resourceId) throws MollieException {
