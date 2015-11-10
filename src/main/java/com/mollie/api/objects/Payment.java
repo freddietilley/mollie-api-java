@@ -34,11 +34,13 @@ import java.util.Map;
 
 public class Payment {
 	public static final String STATUS_OPEN = "open";
+	public static final String STATUS_PENDING = "pending";
 	public static final String STATUS_CANCELLED = "cancelled";
 	public static final String STATUS_EXPIRED = "expired";
 	public static final String STATUS_PAID = "paid";
 	public static final String STATUS_PAIDOUT = "paidout";
 	public static final String STATUS_REFUNDED = "refunded";
+	public static final String STATUS_CHARGED_BACK = "charged_back";
 
 	public String id;
 
@@ -71,6 +73,7 @@ public class Payment {
 	public Links links;
 
 	public boolean isOpen() { return this.status.equals(STATUS_OPEN); }
+	public boolean isPending() { return this.status.equals(STATUS_PENDING); }
 
 	public boolean isRefunded() { return this.status.equals(STATUS_REFUNDED); }
 
@@ -78,13 +81,8 @@ public class Payment {
 		return (this.paidDatetime != null && !this.paidDatetime.trim().isEmpty());
 	}
 
-	public boolean isCancelled() {
-		return (this.cancelledDatetime != null && !this.cancelledDatetime.trim().isEmpty());
-	}
-
-	public boolean isExpired() {
-		return (this.expiredDatetime != null && !this.expiredDatetime.trim().isEmpty());
-	}
+	public boolean isCancelled() { return this.status.equals(STATUS_CANCELLED); }
+	public boolean isExpired() { return this.status.equals(STATUS_EXPIRED); }
 
 	public String getPaymentUrl() {
 		if (links != null && links.paymentUrl != null)
