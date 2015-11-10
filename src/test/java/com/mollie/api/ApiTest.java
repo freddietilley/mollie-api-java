@@ -44,6 +44,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.rules.ExpectedException;
 
 public class ApiTest {
@@ -262,6 +263,45 @@ public class ApiTest {
 		assertFalse(payment.isPaid());
 		assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v",
 			payment.getPaymentUrl());
+		assertNull(payment.metadata);
+	}
+
+	@Test
+	public void testCreateRefundWorksCorrectly() throws MollieException
+	{
+		String msgReturn = "{\"id\":\"re_O3UbDhODzG\",\"payment\":{\"id\":\"tr_OCrlrHqKsr\",\"mode\":\"live\",\"createdDatetime\":\"2014-09-15T09:24:39.0Z\",\"status\":\"refunded\",\"expiryPeriod\":\"PT15M\",\"paidDatetime\":\"2014-09-15T09:28:29.0Z\",\"amount\":\"100.00\",\"amountRefunded\":\"60.33\",\"description\":\"15 Round House Kicks To The Face\",\"method\":\"ideal\",\"metadata\":null,\"details\":{\"consumerName\":\"Hr E G H K\u00fcppers en/of MW M.J. K\u00fcppers-Veeneman\",\"consumerAccount\":\"NL53INGB0654422370\",\"consumerBic\":\"INGBNL2A\"},\"links\":{\"redirectUrl\":\"http://www.example.org/return.php\"}},\"amount\":\"60.33\",\"refundedDatetime\":\"2014-09-15T09:24:39.0Z\"}";
+		String msgAction = "payments/tr_OCrlrHqKsr/refunds";
+		String msgBody = "{\"amount\":60.33}";
+
+		PaymentRefund refund = null;
+		Payment payment = new Payment();
+
+		payment.id = "tr_OCrlrHqKsr";
+
+		doReturn(msgReturn).when(api).performHttpCall(
+			MollieClient.HTTP_POST, msgAction, msgBody);
+
+		try {
+			refund = api.payments().refund(payment, new BigDecimal("60.33"));
+		} catch (MollieException e) {
+			throw e;
+		} finally {
+			verify(api, times(1)).performHttpCall(MollieClient.HTTP_POST,
+				msgAction, msgBody);
+		}
+
+		assertNotNull(refund);
+		assertEquals("re_O3UbDhODzG", refund.id);
+		assertEquals(new BigDecimal("60.33"), refund.amount);
+		assertEquals("2014-09-15T09:24:39.0Z", refund.refundedDatetime);
+
+		assertEquals("tr_OCrlrHqKsr", payment.id);
+		assertEquals("15 Round House Kicks To The Face", payment.description);
+		assertEquals(Method.IDEAL, payment.method);
+		assertEquals("2014-09-15T09:24:39.0Z", payment.createdDatetime);
+		assertEquals(Payment.STATUS_REFUNDED, payment.status);
+		assertTrue(payment.isPaid());
+		assertTrue(payment.isRefunded());
 		assertNull(payment.metadata);
 	}
 }
