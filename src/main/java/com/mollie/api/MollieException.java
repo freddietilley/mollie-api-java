@@ -33,6 +33,7 @@ package com.mollie.api;
 public class MollieException extends Exception {
 	public final String type;
 	public final String message;
+	protected String _field;
 
 	public MollieException(String message) {
 		super(message);
@@ -45,4 +46,7 @@ public class MollieException extends Exception {
 		this.type = type;
 		this.message = message;
 	}
+
+	public String getField() { return _field; }
+	public void setField(String field) { _field = field; }
 }

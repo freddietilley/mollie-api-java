@@ -188,12 +188,19 @@ abstract public class BaseResource <T> {
 		} else {
 			if (object.get("error") != null)
 			{
+				MollieException exception = null;
 				JsonObject error = object.get("error").getAsJsonObject();
 				String type = error.get("type").getAsString();
 				String message = error.get("message").getAsString();
 
-				throw new MollieException("Error executing API call (" + type +"): " +
+				exception = new MollieException("Error executing API call (" + type +"): " +
 					message + ".");
+
+				if (error.has("field")) {
+					exception.setField(error.get("field").getAsString());
+				}
+
+				throw exception;
 			}
 		}
 
