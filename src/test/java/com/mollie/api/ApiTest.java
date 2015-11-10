@@ -234,7 +234,7 @@ public class ApiTest {
 		"\"offset\":0," +
 		"\"data\":[" +
 		"  {" +
-		"    \"id\":\"tr_d0b0E3EA3v\",\"mode\":\"test\", \"createdDatetime\":\"2013-11-21T09:57:08.0Z\", \"status\":\"open\", \"amount\":100, \"description\":\"Order #1225\", \"method\":null, \"details\":null, \"links\":{ \"paymentUrl\":\"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v\" }" +
+		"    \"id\":\"tr_d0b0E3EA3v\",\"mode\":\"test\", \"createdDatetime\":\"2013-11-21T09:57:08.0Z\", \"expiryPeriod\": \"P12DT11H30M45S\", \"status\":\"open\", \"amount\":100, \"description\":\"Order #1225\", \"method\":null, \"details\":null, \"links\":{ \"paymentUrl\":\"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v\" }" +
 		"  }" +
 		"]," +
 		"\"links\":{" +
@@ -269,6 +269,7 @@ public class ApiTest {
 		assertEquals("tr_d0b0E3EA3v", payment.id);
 		assertEquals("Order #1225", payment.description);
 		assertNull(payment.method);
+		assertEquals("P12DT11H30M45S", payment.expiryPeriod);
 		assertEquals("2013-11-21T09:57:08.0Z", payment.createdDatetime);
 		assertEquals(Payment.STATUS_OPEN, payment.status);
 

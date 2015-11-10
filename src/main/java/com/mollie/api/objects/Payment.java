@@ -58,6 +58,8 @@ public class Payment {
 
 	public String status = STATUS_OPEN;
 
+	public String expiryPeriod;
+
 	public String createdDatetime;
 
 	public String paidDatetime;
@@ -65,6 +67,10 @@ public class Payment {
 	public String cancelledDatetime;
 
 	public String expiredDatetime;
+
+	public String profileId;
+
+	public String locale;
 
 	public Map<String, Object> metadata;
 
