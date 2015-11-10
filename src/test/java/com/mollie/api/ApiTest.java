@@ -338,7 +338,7 @@ public class ApiTest {
 			MollieClient.HTTP_GET, msgAction, null);
 
 		try {
-			HashMap options = new HashMap<String, String>(1);
+			HashMap<String,String> options = new HashMap<String, String>(3);
 			options.put("offset", "0");
 			options.put("count", "0");
 			options.put("locale", "de");
