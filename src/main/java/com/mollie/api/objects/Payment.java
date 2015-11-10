@@ -83,6 +83,8 @@ public class Payment {
 
 	public boolean isRefunded() { return this.status.equals(STATUS_REFUNDED); }
 
+	public boolean isChargedBack() { return this.status.equals(STATUS_CHARGED_BACK); }
+
 	public boolean isPaid() {
 		return (this.paidDatetime != null && !this.paidDatetime.trim().isEmpty());
 	}
