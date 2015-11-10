@@ -177,7 +177,10 @@ public class ApiTest {
 		assertNull(payment.method);
 		assertEquals("2013-11-21T09:57:08.0Z", payment.createdDatetime);
 		assertEquals(Payment.STATUS_OPEN, payment.status);
+		assertTrue(payment.isOpen());
 		assertFalse(payment.isPaid());
+		assertFalse(payment.isExpired());
+		assertFalse(payment.isCancelled());
 		assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v",
 			payment.getPaymentUrl());
 		assertNull(payment.metadata);
@@ -209,7 +212,12 @@ public class ApiTest {
 		assertNull(payment.method);
 		assertEquals("2013-11-21T09:57:08.0Z", payment.createdDatetime);
 		assertEquals(Payment.STATUS_OPEN, payment.status);
+
+		assertTrue(payment.isOpen());
 		assertFalse(payment.isPaid());
+		assertFalse(payment.isExpired());
+		assertFalse(payment.isCancelled());
+
 		assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v",
 			payment.getPaymentUrl());
 		assertNull(payment.metadata);
@@ -260,7 +268,12 @@ public class ApiTest {
 		assertNull(payment.method);
 		assertEquals("2013-11-21T09:57:08.0Z", payment.createdDatetime);
 		assertEquals(Payment.STATUS_OPEN, payment.status);
+
+		assertTrue(payment.isOpen());
 		assertFalse(payment.isPaid());
+		assertFalse(payment.isExpired());
+		assertFalse(payment.isCancelled());
+
 		assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v",
 			payment.getPaymentUrl());
 		assertNull(payment.metadata);
@@ -300,8 +313,13 @@ public class ApiTest {
 		assertEquals(Method.IDEAL, payment.method);
 		assertEquals("2014-09-15T09:24:39.0Z", payment.createdDatetime);
 		assertEquals(Payment.STATUS_REFUNDED, payment.status);
+
+		assertFalse(payment.isOpen());
+		assertFalse(payment.isExpired());
+		assertFalse(payment.isCancelled());
 		assertTrue(payment.isPaid());
 		assertTrue(payment.isRefunded());
+
 		assertNull(payment.metadata);
 	}
 }
