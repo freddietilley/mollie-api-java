@@ -104,7 +104,7 @@ abstract public class BaseResource <T> {
 	}
 
 	public ArrayList<T> all() throws MollieException {
-		return this.all(0, DEFAULT_LIMIT);
+		return this.all(0, 0);
 	}
 
 	public ArrayList<T> all(int offset, int limit) throws MollieException {
