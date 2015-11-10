@@ -36,10 +36,13 @@ import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -321,5 +324,36 @@ public class ApiTest {
 		assertTrue(payment.isRefunded());
 
 		assertNull(payment.metadata);
+	}
+
+	@Test
+	public void testMethodsWorksCorrectly() throws MollieException
+	{
+		String msgReturn = "{\"totalCount\":4,\"offset\":0,\"count\":4,\"data\":[{\"id\":\"sofort\",\"description\":\"SOFORT \u00dcberweisung\",\"amount\":{\"minimum\":\"0.31\",\"maximum\":\"5000.00\"},\"image\":{\"normal\":\"https://www.mollie.com/images/payscreen/methods/sofort.png\",\"bigger\":\"https://www.mollie.com/images/payscreen/methods/sofort@2x.png\"}},{\"id\":\"ideal\",\"description\":\"iDEAL\",\"amount\":{\"minimum\":\"0.55\",\"maximum\":\"50000.00\"},\"image\":{\"normal\":\"https://www.mollie.com/images/payscreen/methods/ideal.png\",\"bigger\":\"https://www.mollie.com/images/payscreen/methods/ideal@2x.png\"}},{\"id\":\"mistercash\",\"description\":\"Bancontact/Mister Cash\",\"amount\":{\"minimum\":\"0.31\",\"maximum\":\"10000.00\"},\"image\":{\"normal\":\"https://www.mollie.com/images/payscreen/methods/mistercash.png\",\"bigger\":\"https://www.mollie.com/images/payscreen/methods/mistercash@2x.png\"}},{\"id\":\"belfius\",\"description\":\"Belfius Direct Net\",\"amount\":{\"minimum\":\"0.31\",\"maximum\":\"50000.00\"},\"image\":{\"normal\":\"https://www.mollie.com/images/payscreen/methods/belfius.png\",\"bigger\":\"https://www.mollie.com/images/payscreen/methods/belfius@2x.png\"}}]}";
+		String msgAction = "methods?offset=0&count=0&locale=de";
+		ArrayList<Method> methods = null;
+
+		doReturn(msgReturn).when(api).performHttpCall(
+			MollieClient.HTTP_GET, msgAction, null);
+
+		try {
+			HashMap options = new HashMap<String, String>(1);
+			options.put("offset", "0");
+			options.put("count", "0");
+			options.put("locale", "de");
+			methods = api.methods().all(0,0, options);
+		} catch (MollieException e) {
+			throw e;
+		} finally {
+			verify(api, times(1)).performHttpCall(MollieClient.HTTP_GET,
+				msgAction, null);
+		}
+
+		assertNotNull(methods);
+		assertEquals(4, methods.size());
+
+		for (Method method : methods) {
+			assertThat(method, instanceOf(Method.class));
+		}
 	}
 }
