@@ -186,12 +186,12 @@ public class ApiTest {
 	public void testGetPaymentWorksCorrectly() throws MollieException
 	{
 		String msgReturn = "{ \"id\":\"tr_d0b0E3EA3v\", \"mode\":\"test\", \"createdDatetime\":\"2013-11-21T09:57:08.0Z\", \"status\":\"open\", \"amount\":100, \"description\":\"Order #1225\", \"method\":null, \"details\":null, \"links\":{ \"paymentUrl\":\"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v\" } }";
-		String msgBody = "payments/tr_d0b0E3EA3v";
+		String msgAction = "payments/tr_d0b0E3EA3v";
 
 		Payment payment = null;
 
 		doReturn(msgReturn).when(api).performHttpCall(
-			MollieClient.HTTP_GET, msgBody, null);
+			MollieClient.HTTP_GET, msgAction, null);
 
 		try {
 			payment = api.payments().get("tr_d0b0E3EA3v");
@@ -199,7 +199,7 @@ public class ApiTest {
 			throw e;
 		} finally {
 			verify(api, times(1)).performHttpCall(MollieClient.HTTP_GET,
-				msgBody, null);
+				msgAction, null);
 		}
 
 		assertNotNull(payment);
@@ -232,13 +232,13 @@ public class ApiTest {
 		"  \"last\":null" +
 		"}" +
 		"}";
-		String msgBody = "payments?offset=0&count=0";
+		String msgAction = "payments?offset=0&count=0";
 
 		ArrayList<Payment> collection = null;
 		Payment payment = null;
 
 		doReturn(msgReturn).when(api).performHttpCall(
-			MollieClient.HTTP_GET, msgBody, null);
+			MollieClient.HTTP_GET, msgAction, null);
 
 		try {
 			collection = api.payments().all();
@@ -246,7 +246,7 @@ public class ApiTest {
 			throw e;
 		} finally {
 			verify(api, times(1)).performHttpCall(MollieClient.HTTP_GET,
-				msgBody, null);
+				msgAction, null);
 		}
 
 		assertNotNull(collection);
