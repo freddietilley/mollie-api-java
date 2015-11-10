@@ -29,10 +29,15 @@
  */
 package com.mollie.api.resource;
 
+import java.net.URISyntaxException;
+import org.apache.http.client.utils.URIBuilder;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -98,9 +103,20 @@ abstract public class BaseResource <T> {
 		}
 	}
 
-	public ArrayList<T> all() throws MollieException { return this.all(0, DEFAULT_LIMIT); }
+	public ArrayList<T> all() throws MollieException {
+		return this.all(0, DEFAULT_LIMIT);
+	}
+
 	public ArrayList<T> all(int offset, int limit) throws MollieException {
-		return this.rest_list(this.getResourceName(), offset, limit);
+		return this.rest_list(this.getResourceName(), offset, limit, null);
+	}
+
+	public ArrayList<T> all(int offset, int limit, Map<String,String> options) throws MollieException {
+		return this.rest_list(this.getResourceName(), offset, limit, options);
+	}
+
+	public ArrayList<T> all(Map<String,String> options) throws MollieException {
+		return this.rest_list(this.getResourceName(), 0, 0, options);
 	}
 
 	public T get(String resourceId) throws MollieException {
@@ -144,9 +160,40 @@ abstract public class BaseResource <T> {
 		return null;
 	}
 
-	private ArrayList<T> rest_list(String restResource, int offset, int limit) throws MollieException
+	private String buildQueryFromMap(Map<String,String> options)
 	{
-		String apiPath = restResource + "?offset=" + offset + "&count=" + limit;
+		URIBuilder ub = null;
+		String queryString = null;
+
+		try {
+			ub = new URIBuilder();
+
+			for (HashMap.Entry<String, String> entry : options.entrySet()) {
+				ub.addParameter(entry.getKey(), entry.getValue());
+			}
+
+			queryString = ub.build().getQuery();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+
+		return queryString;
+	}
+
+	private ArrayList<T> rest_list(String restResource, int offset, int limit, Map<String,String> options) throws MollieException
+	{
+		String query = null;
+
+		if (options == null) {
+			options = new HashMap<String,String>();
+		}
+
+		options.putIfAbsent("offset", Integer.toString(offset));
+		options.putIfAbsent("count", Integer.toString(limit));
+
+		query = buildQueryFromMap(options);
+		String apiPath = restResource + (query != null ? "?" + query : "");
+
 		JsonObject result = this.performApiCall(REST_LIST, apiPath);
 		ArrayList<T> arraylist = new ArrayList<T>();
 
