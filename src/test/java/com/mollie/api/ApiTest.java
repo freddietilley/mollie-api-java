@@ -173,7 +173,7 @@ public class ApiTest {
 		assertNotNull(payment);
 		assertEquals("tr_d0b0E3EA3v", payment.id);
 		assertEquals("Order #1225", payment.description);
-		assertNull("Order #1225", payment.method);
+		assertNull(payment.method);
 		assertEquals("2013-11-21T09:57:08.0Z", payment.createdDatetime);
 		assertEquals(Payment.STATUS_OPEN, payment.status);
 		assertFalse(payment.isPaid());
@@ -205,7 +205,7 @@ public class ApiTest {
 		assertNotNull(payment);
 		assertEquals("tr_d0b0E3EA3v", payment.id);
 		assertEquals("Order #1225", payment.description);
-		assertNull("Order #1225", payment.method);
+		assertNull(payment.method);
 		assertEquals("2013-11-21T09:57:08.0Z", payment.createdDatetime);
 		assertEquals(Payment.STATUS_OPEN, payment.status);
 		assertFalse(payment.isPaid());
@@ -256,7 +256,7 @@ public class ApiTest {
 
 		assertEquals("tr_d0b0E3EA3v", payment.id);
 		assertEquals("Order #1225", payment.description);
-		assertNull("Order #1225", payment.method);
+		assertNull(payment.method);
 		assertEquals("2013-11-21T09:57:08.0Z", payment.createdDatetime);
 		assertEquals(Payment.STATUS_OPEN, payment.status);
 		assertFalse(payment.isPaid());
