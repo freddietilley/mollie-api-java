@@ -33,57 +33,57 @@ import java.math.BigDecimal;
 
 public class Method {
 	/**
-	 * @link https://mollie.com/ideal
+	 * @see <a href="https://mollie.com/ideal">https://mollie.com/ideal</a>
 	 */
 	public static final String IDEAL				= "ideal";
 
 	/**
-	 * @link https://mollie.com/paysafecard
+	 * @see <a href="https://mollie.com/paysafecard">https://mollie.com/paysafecard</a>
 	 */
 	public static final String PAYSAFECARD			= "paysafecard";
 
 	/**
-	 * @link https://mollie.com/creditcard
+	 * @see <a href="https://mollie.com/creditcard">https://mollie.com/creditcard</a>
 	 */
 	public static final String CREDITCARD			= "creditcard";
 
 	/**
-	 * @link https://mollie.com/mistercash
+	 * @see <a href="https://mollie.com/mistercash">https://mollie.com/mistercash</a>
 	 */
 	public static final String MISTERCASH			= "mistercash";
 
 	/**
-	 * @link https://mollie.com/sofort
+	 * @see <a href="https://mollie.com/sofort">https://mollie.com/sofort</a>
 	 */
 	public static final String SOFORT				= "sofort";
 
 	/**
-	 * @link https://mollie.com/banktransfer
+	 * @see <a href="https://mollie.com/banktransfer">https://mollie.com/banktransfer</a>
 	 */
 	public static final String BANKTRANSFER			= "banktransfer";
 
 	/**
-	 * @link https://mollie.com/directdebit
+	 * @see <a href="https://mollie.com/directdebit">https://mollie.com/directdebit</a>
 	 */
 	public static final String DIRECTDEBIT			= "directdebit";
 
 	/**
-	 * @link https://mollie.com/paypal
+	 * @see <a href="https://mollie.com/paypal">https://mollie.com/paypal</a>
 	 */
 	public static final String PAYPAL				= "paypal";
 
 	/**
-	 * @link https://mollie.com/bitcoin
+	 * @see <a href="https://mollie.com/bitcoin">https://mollie.com/bitcoin</a>
 	 */
 	public static final String BITCOIN				= "bitcoin";
 
 	/**
-	 * @link https://mollie.com/belfiusdirectnet
+	 * @see <a href="https://mollie.com/belfiusdirectnet">https://mollie.com/belfiusdirectnet</a>
 	 */
 	public static final String BELFIUS				= "belfius";
 
 	/**
-	 * @link https://mollie.com/giftcards
+	 * @see <a href="https://mollie.com/giftcards">https://mollie.com/giftcards</a>
 	 */
 	public static final String PODIUMCADEAUKAART	= "podiumcadeaukaart";
 

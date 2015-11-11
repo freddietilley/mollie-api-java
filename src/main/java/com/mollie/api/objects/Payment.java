@@ -123,14 +123,14 @@ public class Payment {
 	/**
 	 * The period after which the payment will expire in ISO-8601 format.
 	 *
-	 * @example P12DT11H30M45S (12 days, 11 hours, 30 minutes and 45 seconds)
+	 * example P12DT11H30M45S (12 days, 11 hours, 30 minutes and 45 seconds)
 	 */
 	public String expiryPeriod;
 
 	/**
 	 * Date and time the payment was created in ISO-8601 format.
 	 *
-	 * @example "2013-12-25T10:30:54.0Z"
+	 * example "2013-12-25T10:30:54.0Z"
 	 */
 	public String createdDatetime;
 
@@ -152,7 +152,7 @@ public class Payment {
 	/**
 	 * The profile ID this payment belongs to.
 	 *
-	 * @example pfl_xH2kP6Nc6X
+	 * example pfl_xH2kP6Nc6X
 	 */
 	public String profileId;
 

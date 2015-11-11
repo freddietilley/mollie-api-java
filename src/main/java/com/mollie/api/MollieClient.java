@@ -101,6 +101,12 @@ public class MollieClient {
 	public String apiEndpoint() { return _apiEndpoint; }
 	public void setApiEndpoint(String endpoint) { _apiEndpoint = endpoint; }
 
+	/**
+	 * Sets the api key
+	 *
+	 * @param apikey api key to set
+	 * @throws MollieException when the api key is invalid.
+	 */
 	public void setApiKey(String apikey) throws MollieException
 	{
 		if (!apikey.matches("^(?:live|test)_\\w+$")) {
@@ -114,10 +120,12 @@ public class MollieClient {
 	 * resource specific classes. Please use the payments() method to perform
 	 * operations on payments.
 	 *
-	 * @param method {@link String}
-	 * @param apiMethod {@link String}
-	 * @return {@link String} result of the http call
-	 * @throws MollieException
+	 * @param method the http method to use
+	 * @param apiMethod the api method to call
+	 * @return result of the http call
+	 * @throws MollieException when the api key is not set or when there is a
+	 * problem communicating with the mollie server.
+	 * @see #performHttpCall(String method, String apiMethod, String httpBody)
 	 */
 	public String performHttpCall(String method, String apiMethod) throws MollieException
 	{
@@ -128,11 +136,13 @@ public class MollieClient {
 	 * Perform a http call. This method is used by the resource specific classes.
 	 * Please use the payments() method to perform operations on payments.
 	 *
-	 * @param method {@link String}
-	 * @param apiMethod {@link String}
-	 * @param httpBody {@link String}
-	 * @return {@link String} result of the http call
-	 * @throws MollieException
+	 * @param method the http method to use
+	 * @param apiMethod the api method to call
+	 * @param httpBody the contents to send to the server.
+	 * @return result of the http call
+	 * @throws MollieException when the api key is not set or when there is a
+	 * problem communicating with the mollie server.
+	 * @see #performHttpCall(String method, String apiMethod)
 	 */
 	public String performHttpCall(String method, String apiMethod, String httpBody) throws MollieException
 	{

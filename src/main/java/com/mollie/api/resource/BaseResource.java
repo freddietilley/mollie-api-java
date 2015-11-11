@@ -117,8 +117,13 @@ abstract public class BaseResource <T> {
 	/**
 	 * Retrieve all objects of a certain resource.
 	 *
-	 * @return {@link List} list of fetched objects
-	 * @throws MollieException
+	 * @return list of fetched objects
+	 * @throws MollieException when the client is unable to fetch the objects
+	 * from the server
+	 * 
+	 * @see #all(Map options)
+	 * @see #all(int offset, int limit)
+	 * @see #all(int offset, int limit, Map options)
 	 */
 	public List<T> all() throws MollieException {
 		return this.all(0, 0);
@@ -127,9 +132,14 @@ abstract public class BaseResource <T> {
 	/**
 	 * Retrieve all objects of a certain resource.
 	 *
-	 * @param options {@link Map} additional options to include when fetching objects.
-	 * @return {@link List} list of fetched objects
-	 * @throws MollieException
+	 * @param options additional options to include when fetching objects.
+	 * @return list of fetched objects
+	 * @throws MollieException when the client is unable to fetch the objects
+	 * from the server
+	 * 
+	 * @see #all()
+	 * @see #all(int offset, int limit)
+	 * @see #all(int offset, int limit, Map options)
 	 */
 	public List<T> all(Map<String,String> options) throws MollieException {
 		return this.all(0, 0, options);
@@ -138,10 +148,15 @@ abstract public class BaseResource <T> {
 	/**
 	 * Retrieve all objects of a certain resource.
 	 *
-	 * @param offset {@link int} page offset of the objects to retrieve
-	 * @param limit {@link int} maximimum number of objects to retrieve
-	 * @return {@link List} list of fetched objects
-	 * @throws MollieException
+	 * @param offset page offset of the objects to retrieve
+	 * @param limit maximimum number of objects to retrieve
+	 * @return list of fetched objects
+	 * @throws MollieException when the client is unable to fetch the objects
+	 * from the server
+	 * 
+	 * @see #all()
+	 * @see #all(Map options)
+	 * @see #all(int offset, int limit, Map options)
 	 */
 	public List<T> all(int offset, int limit) throws MollieException {
 		return this.all(offset, limit, null);
@@ -150,11 +165,16 @@ abstract public class BaseResource <T> {
 	/**
 	 * Retrieve all objects of a certain resource.
 	 *
-	 * @param offset {@link int} page offset of the objects to retrieve
-	 * @param limit {@link int} maximimum number of objects to retrieve
-	 * @param options {@link Map} additional options to include when fetching objects.
-	 * @return {@link List} list of fetched objects
-	 * @throws MollieException
+	 * @param offset page offset of the objects to retrieve
+	 * @param limit maximimum number of objects to retrieve
+	 * @param options additional options to include when fetching objects.
+	 * @return list of fetched objects
+	 * @throws MollieException when the client is unable to fetch the objects
+	 * from the server
+	 * 
+	 * @see #all()
+	 * @see #all(Map options)
+	 * @see #all(int offset, int limit)
 	 */
 	public List<T> all(int offset, int limit, Map<String,String> options) throws MollieException {
 		return this.rest_list(this.getResourceName(), offset, limit, options);
@@ -165,9 +185,10 @@ abstract public class BaseResource <T> {
 	 * 
 	 * Will throw a MollieException if the resource cannot be found.
 	 *
-	 * @param resourceId {@link String} Id of the object to retrieve.
+	 * @param resourceId Id of the object to retrieve.
 	 * @return object
-	 * @throws MollieException
+	 * @throws MollieException if the client is unable to get a resource from
+	 * the server.
 	 */
 	public T get(String resourceId) throws MollieException {
 		return this.rest_read(this.getResourceName(), resourceId);
@@ -179,7 +200,8 @@ abstract public class BaseResource <T> {
 	 * @param data an object containing details on the resource. Fields supported
 	 * depend on the resource created.
 	 * @return object on success or null on failure.
-	 * @throws MollieException
+	 * @throws MollieException when the client is unable to create a resource
+	 * on the server.
 	 */
 	public T create(Object data) throws MollieException {
 		Gson gson = new Gson();
@@ -194,10 +216,11 @@ abstract public class BaseResource <T> {
 	/**
 	 * Creates a resource with the REST API.
 	 *
-	 * @param restResource {@link String} resource name
-	 * @param body {@link String} contents used for creation of object
+	 * @param restResource resource name
+	 * @param body contents used for creation of object
 	 * @return object on success or null on failure.
-	 * @throws MollieException
+	 * @throws MollieException when the client is unable to create a resource
+	 * on the server.
 	 */
 	private T rest_create(String restResource, String body) throws MollieException
 	{
@@ -215,10 +238,11 @@ abstract public class BaseResource <T> {
 	/**
 	 * Retrieves a single object from the REST API.
 	 *
-	 * @param restResource {@link String} resource name
-	 * @param id {@link String} Id of the object to retrieve
+	 * @param restResource resource name
+	 * @param id Id of the object to retrieve
 	 * @return object
-	 * @throws MollieException
+	 * @throws MollieException when the client is unable to read the results
+	 * from the server.
 	 */
 	private T rest_read(String restResource, String id) throws MollieException
 	{
@@ -239,8 +263,8 @@ abstract public class BaseResource <T> {
 	 * as url parameters. The method returns null if there was an error building
 	 * the query string.
 	 * 
-	 * @param options {@link Map} options to build a query string from
-	 * @return {@link String} a valid query string or null.
+	 * @param options options to build a query string from
+	 * @return a valid query string or null.
 	 */
 	private String buildQueryFromMap(Map<String,String> options)
 	{
@@ -265,12 +289,12 @@ abstract public class BaseResource <T> {
 	/**
 	 * Get a collection of objects from the REST API.
 	 *
-	 * @param restResource {@link String} resource name
-	 * @param offset {@link int} page offset of the objects to retrieve
-	 * @param limit {@link int} maximimum number of objects to retrieve
-	 * @param options {@link Map} additional options
-	 * @return {@link List}
-	 * @throws MollieException
+	 * @param restResource resource name
+	 * @param offset page offset of the objects to retrieve
+	 * @param limit maximimum number of objects to retrieve
+	 * @param options additional options
+	 * @return
+	 * @throws MollieException if there was a problem fetching the objects
 	 */
 	private List<T> rest_list(String restResource, int offset, int limit, Map<String,String> options) throws MollieException
 	{
@@ -302,15 +326,17 @@ abstract public class BaseResource <T> {
 
 	/**
 	 * Perform an API call with an empty body contents, interpret the results
-	 * and convert them to the correct object type. Throws a MollieException if
-	 * there was an error performing the call or if the results could not
-	 * be decoded into a {@link JsonObject}
+	 * and convert them to the correct object type.
 	 *
-	 * @param httpMethod
-	 * @param apiMethod
+	 * @param httpMethod the http method to use
+	 * @param apiMethod the api method to call
 	 *
-	 * @return object {@link JsonObject}
-	 * @throws MollieException
+	 * @return object {@link JsonObject} or null if there was a problem with
+	 * the api call.
+	 * @throws MollieException if there was an error performing the call or if
+	 * the results could not be decoded into a {@link JsonObject}
+	 * 
+	 * @see #performApiCall(String httpMethod, String apiMethod)
 	 */
 	protected JsonObject performApiCall(String httpMethod, String apiMethod) throws MollieException {
 		return performApiCall(httpMethod, apiMethod, null);
@@ -318,16 +344,18 @@ abstract public class BaseResource <T> {
 
 	/**
 	 * Perform an API call, interpret the results and convert them to the
-	 * correct object type. Throws a MollieException if there was an error
-	 * performing the call or if the results could not be decoded into a
-	 * {@link JsonObject}
+	 * correct object type. 
 	 *
-	 * @param httpMethod
-	 * @param apiMethod
-	 * @param httpBody
+	 * @param httpMethod the http method to use
+	 * @param apiMethod the api method to call
+	 * @param httpBody the contents to send to the server.
 	 *
-	 * @return object {@link JsonObject}
-	 * @throws MollieException
+	 * @return object {@link JsonObject} or null if there was a problem with
+	 * the api call
+	 * @throws MollieException if there was an error performing the call or if
+	 * the results could not be decoded into a {@link JsonObject}
+	 * 
+	 * @see #performApiCall(String httpMethod, String apiMethod)
 	 */
 	protected JsonObject performApiCall(String httpMethod,
 										String apiMethod,

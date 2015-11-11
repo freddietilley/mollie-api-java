@@ -77,7 +77,9 @@ public class Payments extends BaseResource<Payment> {
 	 *
 	 * @param payment {@link Payment} the payment to refund
 	 * @return {@link PaymentRefund} a refund object or null
-	 * @throws MollieException
+	 * @throws MollieException if there was a problem creating the refund
+	 *
+	 * @see #refund(Payment payment, BigDecimal amount)
 	 */
 	public PaymentRefund refund(Payment payment) throws MollieException {
 		return refund(payment, null);
@@ -88,9 +90,11 @@ public class Payments extends BaseResource<Payment> {
 	 * The passed payment argument will be updated to include the refund status.
 	 *
 	 * @param payment {@link Payment} the payment to refund
-	 * @param amount {@link BigDecimal} the amount of the payment to refund.
+	 * @param amount the amount of the payment to refund.
 	 * @return {@link PaymentRefund} a refund object or null
-	 * @throws MollieException
+	 * @throws MollieException if there was a problem creating the refund
+	 *
+	 * @see #refund(Payment payment)
 	 */
 	public PaymentRefund refund(Payment payment, BigDecimal amount) throws MollieException
 	{
