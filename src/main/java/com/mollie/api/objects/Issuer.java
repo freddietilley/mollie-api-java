@@ -30,8 +30,19 @@
 package com.mollie.api.objects;
 
 public class Issuer {
+	/**
+	 * Id of the issuer.
+	 */
 	private String id;
+
+	/**
+	 * Name of the issuer.
+	 */
 	private String name;
+
+	/**
+	 * The payment method this issuer belongs to.
+	 */
 	private String method;
 
 	public String getId() { return id; }

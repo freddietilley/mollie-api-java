@@ -109,11 +109,31 @@ public class MollieClient {
 		_apiKey = apikey;
 	}
 
+	/**
+	 * Perform a http call with an empty body. This method is used by the
+	 * resource specific classes. Please use the payments() method to perform
+	 * operations on payments.
+	 *
+	 * @param method {@link String}
+	 * @param apiMethod {@link String}
+	 * @return {@link String} result of the http call
+	 * @throws MollieException
+	 */
 	public String performHttpCall(String method, String apiMethod) throws MollieException
 	{
 		return performHttpCall(method, apiMethod, null);
 	}
 
+	/**
+	 * Perform a http call. This method is used by the resource specific classes.
+	 * Please use the payments() method to perform operations on payments.
+	 *
+	 * @param method {@link String}
+	 * @param apiMethod {@link String}
+	 * @param httpBody {@link String}
+	 * @return {@link String} result of the http call
+	 * @throws MollieException
+	 */
 	public String performHttpCall(String method, String apiMethod, String httpBody) throws MollieException
 	{
 		URI uri = null;

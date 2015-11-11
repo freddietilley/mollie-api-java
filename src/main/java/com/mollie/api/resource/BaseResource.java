@@ -66,6 +66,9 @@ abstract public class BaseResource <T> {
 		_api = api;
 	}
 
+	/**
+	 * @return Default resource name used by this resource when performing api calls.
+	 */
 	protected String getResourceName() {
 		String className = getClass().getName();
 		String resourceName = className;
@@ -83,6 +86,13 @@ abstract public class BaseResource <T> {
 	     return (Class<T>) parameterizedType.getActualTypeArguments()[0];
 	}
 
+	/**
+	 * Convenience method to copy all public properties from a src object into
+	 * a dst object of the same type.
+	 *
+	 * @param src Source object to copy properties from
+	 * @param dst Target object
+	 */
 	protected void copyInto(T src, T dst) {
 		Field[] fromFields = returnedClass().getDeclaredFields();
 		Object value = null;
@@ -104,26 +114,73 @@ abstract public class BaseResource <T> {
 		}
 	}
 
+	/**
+	 * Retrieve all objects of a certain resource.
+	 *
+	 * @return {@link List} list of fetched objects
+	 * @throws MollieException
+	 */
 	public List<T> all() throws MollieException {
 		return this.all(0, 0);
 	}
 
+	/**
+	 * Retrieve all objects of a certain resource.
+	 *
+	 * @param options {@link Map} additional options to include when fetching objects.
+	 * @return {@link List} list of fetched objects
+	 * @throws MollieException
+	 */
 	public List<T> all(Map<String,String> options) throws MollieException {
 		return this.all(0, 0, options);
 	}
 
+	/**
+	 * Retrieve all objects of a certain resource.
+	 *
+	 * @param offset {@link int} page offset of the objects to retrieve
+	 * @param limit {@link int} maximimum number of objects to retrieve
+	 * @return {@link List} list of fetched objects
+	 * @throws MollieException
+	 */
 	public List<T> all(int offset, int limit) throws MollieException {
 		return this.all(offset, limit, null);
 	}
 
+	/**
+	 * Retrieve all objects of a certain resource.
+	 *
+	 * @param offset {@link int} page offset of the objects to retrieve
+	 * @param limit {@link int} maximimum number of objects to retrieve
+	 * @param options {@link Map} additional options to include when fetching objects.
+	 * @return {@link List} list of fetched objects
+	 * @throws MollieException
+	 */
 	public List<T> all(int offset, int limit, Map<String,String> options) throws MollieException {
 		return this.rest_list(this.getResourceName(), offset, limit, options);
 	}
 
+	/**
+	 * Retrieve information on a single resource from Mollie.
+	 * 
+	 * Will throw a MollieException if the resource cannot be found.
+	 *
+	 * @param resourceId {@link String} Id of the object to retrieve.
+	 * @return object
+	 * @throws MollieException
+	 */
 	public T get(String resourceId) throws MollieException {
 		return this.rest_read(this.getResourceName(), resourceId);
 	}
 
+	/**
+	 * Create a resource with the remote API.
+	 * 
+	 * @param data an object containing details on the resource. Fields supported
+	 * depend on the resource created.
+	 * @return object on success or null on failure.
+	 * @throws MollieException
+	 */
 	public T create(Object data) throws MollieException {
 		Gson gson = new Gson();
 		String encoded = gson.toJson(data);
@@ -134,6 +191,14 @@ abstract public class BaseResource <T> {
 			return null;
 	}
 
+	/**
+	 * Creates a resource with the REST API.
+	 *
+	 * @param restResource {@link String} resource name
+	 * @param body {@link String} contents used for creation of object
+	 * @return object on success or null on failure.
+	 * @throws MollieException
+	 */
 	private T rest_create(String restResource, String body) throws MollieException
 	{
 		JsonObject result = this.performApiCall(REST_CREATE, restResource, body);
@@ -147,6 +212,14 @@ abstract public class BaseResource <T> {
 		return null;
 	}
 
+	/**
+	 * Retrieves a single object from the REST API.
+	 *
+	 * @param restResource {@link String} resource name
+	 * @param id {@link String} Id of the object to retrieve
+	 * @return object
+	 * @throws MollieException
+	 */
 	private T rest_read(String restResource, String id) throws MollieException
 	{
 		String method = restResource + "/" + id;
@@ -161,6 +234,14 @@ abstract public class BaseResource <T> {
 		return null;
 	}
 
+	/**
+	 * Creates a valid query string from the supplied options that can be used
+	 * as url parameters. The method returns null if there was an error building
+	 * the query string.
+	 * 
+	 * @param options {@link Map} options to build a query string from
+	 * @return {@link String} a valid query string or null.
+	 */
 	private String buildQueryFromMap(Map<String,String> options)
 	{
 		URIBuilder ub = null;
@@ -181,6 +262,16 @@ abstract public class BaseResource <T> {
 		return queryString;
 	}
 
+	/**
+	 * Get a collection of objects from the REST API.
+	 *
+	 * @param restResource {@link String} resource name
+	 * @param offset {@link int} page offset of the objects to retrieve
+	 * @param limit {@link int} maximimum number of objects to retrieve
+	 * @param options {@link Map} additional options
+	 * @return {@link List}
+	 * @throws MollieException
+	 */
 	private List<T> rest_list(String restResource, int offset, int limit, Map<String,String> options) throws MollieException
 	{
 		String query = null;
@@ -209,10 +300,35 @@ abstract public class BaseResource <T> {
 		return arraylist;
 	}
 
+	/**
+	 * Perform an API call with an empty body contents, interpret the results
+	 * and convert them to the correct object type. Throws a MollieException if
+	 * there was an error performing the call or if the results could not
+	 * be decoded into a {@link JsonObject}
+	 *
+	 * @param httpMethod
+	 * @param apiMethod
+	 *
+	 * @return object {@link JsonObject}
+	 * @throws MollieException
+	 */
 	protected JsonObject performApiCall(String httpMethod, String apiMethod) throws MollieException {
 		return performApiCall(httpMethod, apiMethod, null);
 	}
 
+	/**
+	 * Perform an API call, interpret the results and convert them to the
+	 * correct object type. Throws a MollieException if there was an error
+	 * performing the call or if the results could not be decoded into a
+	 * {@link JsonObject}
+	 *
+	 * @param httpMethod
+	 * @param apiMethod
+	 * @param httpBody
+	 *
+	 * @return object {@link JsonObject}
+	 * @throws MollieException
+	 */
 	protected JsonObject performApiCall(String httpMethod,
 										String apiMethod,
 										String httpBody) throws MollieException

@@ -32,21 +32,81 @@ package com.mollie.api.objects;
 import java.math.BigDecimal;
 
 public class Method {
+	/**
+	 * @link https://mollie.com/ideal
+	 */
 	public static final String IDEAL				= "ideal";
+
+	/**
+	 * @link https://mollie.com/paysafecard
+	 */
 	public static final String PAYSAFECARD			= "paysafecard";
+
+	/**
+	 * @link https://mollie.com/creditcard
+	 */
 	public static final String CREDITCARD			= "creditcard";
+
+	/**
+	 * @link https://mollie.com/mistercash
+	 */
 	public static final String MISTERCASH			= "mistercash";
+
+	/**
+	 * @link https://mollie.com/sofort
+	 */
 	public static final String SOFORT				= "sofort";
+
+	/**
+	 * @link https://mollie.com/banktransfer
+	 */
 	public static final String BANKTRANSFER			= "banktransfer";
+
+	/**
+	 * @link https://mollie.com/directdebit
+	 */
 	public static final String DIRECTDEBIT			= "directdebit";
+
+	/**
+	 * @link https://mollie.com/paypal
+	 */
 	public static final String PAYPAL				= "paypal";
+
+	/**
+	 * @link https://mollie.com/bitcoin
+	 */
 	public static final String BITCOIN				= "bitcoin";
+
+	/**
+	 * @link https://mollie.com/belfiusdirectnet
+	 */
 	public static final String BELFIUS				= "belfius";
+
+	/**
+	 * @link https://mollie.com/giftcards
+	 */
 	public static final String PODIUMCADEAUKAART	= "podiumcadeaukaart";
 
+	/**
+	 * Id of the payment method.
+	 */
 	private String id;
+
+	/**
+	 * More legible description of the payment method.
+	 */
 	private String description;
+
+	/**
+	 * The amount.minimum() and amount.maximum() supported by this method and the used API key.
+	 */
 	private Amount amount;
+
+	/**
+	 * The image.normal() and image.bigger() to display the payment method logo.
+	 *
+	 * @var object
+	 */
 	private ImageGroup image;
 
 	public Method() {

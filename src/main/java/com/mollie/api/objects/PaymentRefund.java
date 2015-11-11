@@ -32,22 +32,67 @@ package com.mollie.api.objects;
 import java.math.BigDecimal;
 
 public class PaymentRefund {
+	/**
+	 * The refund will be send to the bank on the next business day.
+	 * You can still cancel the refund.
+	 */
 	public static final String STATUS_PENDING = "pending";
+
+	/**
+	 * The refund has been sent to the bank. The refund amount will be transferred
+	 * to the consumer account as soon as possible.
+	 */
 	public static final String STATUS_PROCESSING = "processing";
+
+	/**
+	 * The refund amount has been transferred to the consumer.
+	 */
 	public static final String STATUS_REFUNDED = "refunded";
 
+	/**
+	 * Id of the payment method.
+	 */
 	public String id;
 
+	/**
+	 * The amount that was refunded.
+	 */
 	public BigDecimal amount;
 
+	/**
+	 * The payment that was refunded.
+	 */
 	public Payment payment;
 
+	/**
+	 * Date and time the payment was cancelled in ISO-8601 format.
+	 */
 	public String refundedDatetime;
 
+	/**
+	 * The refund status
+	 */
 	public String status;
 
+	/**
+	 * Is this refund pending?
+	 *
+	 * @return {@link boolean}
+	 */
 	public boolean isPending() { return this.status.equals(STATUS_PENDING); }
+
+	/**
+	 * Is this refund processing?
+	 *
+	 * @return {@link boolean}
+	 */
 	public boolean isProcessing() { return this.status.equals(STATUS_PROCESSING); }
+
+	/**
+	 * Has this refund been transferred to the consumer?
+	 *
+	 * @return {@link boolean}
+	 */
 	public boolean isTransferred() { return this.status.equals(STATUS_REFUNDED); }
 }
 

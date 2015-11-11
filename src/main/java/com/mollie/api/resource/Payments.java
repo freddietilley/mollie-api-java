@@ -71,10 +71,27 @@ public class Payments extends BaseResource<Payment> {
 		return this.create(payData);
 	}
 
+	/**
+	 * Refund a payment. The passed payment argument will be updated to include
+	 * the refund status.
+	 *
+	 * @param payment {@link Payment} the payment to refund
+	 * @return {@link PaymentRefund} a refund object or null
+	 * @throws MollieException
+	 */
 	public PaymentRefund refund(Payment payment) throws MollieException {
 		return refund(payment, null);
 	}
 
+	/**
+	 * Refund a payment. This method can be used to partially refund a payment.
+	 * The passed payment argument will be updated to include the refund status.
+	 *
+	 * @param payment {@link Payment} the payment to refund
+	 * @param amount {@link BigDecimal} the amount of the payment to refund.
+	 * @return {@link PaymentRefund} a refund object or null
+	 * @throws MollieException
+	 */
 	public PaymentRefund refund(Payment payment, BigDecimal amount) throws MollieException
 	{
 		String method = this.getResourceName() + "/" + payment.id + "/refunds";
