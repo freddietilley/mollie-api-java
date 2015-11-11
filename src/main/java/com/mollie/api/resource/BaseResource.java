@@ -35,6 +35,7 @@ import org.apache.http.client.utils.URIBuilder;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
@@ -103,19 +104,19 @@ abstract public class BaseResource <T> {
 		}
 	}
 
-	public ArrayList<T> all() throws MollieException {
+	public List<T> all() throws MollieException {
 		return this.all(0, 0);
 	}
 
-	public ArrayList<T> all(Map<String,String> options) throws MollieException {
+	public List<T> all(Map<String,String> options) throws MollieException {
 		return this.all(0, 0, options);
 	}
 
-	public ArrayList<T> all(int offset, int limit) throws MollieException {
+	public List<T> all(int offset, int limit) throws MollieException {
 		return this.all(offset, limit, null);
 	}
 
-	public ArrayList<T> all(int offset, int limit, Map<String,String> options) throws MollieException {
+	public List<T> all(int offset, int limit, Map<String,String> options) throws MollieException {
 		return this.rest_list(this.getResourceName(), offset, limit, options);
 	}
 
@@ -180,7 +181,7 @@ abstract public class BaseResource <T> {
 		return queryString;
 	}
 
-	private ArrayList<T> rest_list(String restResource, int offset, int limit, Map<String,String> options) throws MollieException
+	private List<T> rest_list(String restResource, int offset, int limit, Map<String,String> options) throws MollieException
 	{
 		String query = null;
 
