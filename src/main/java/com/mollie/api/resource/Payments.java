@@ -31,7 +31,7 @@ package com.mollie.api.resource;
 
 import java.math.BigDecimal;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -54,7 +54,7 @@ public class Payments extends BaseResource<Payment> {
     public Payment create(BigDecimal amount, String method, String description,
             String redirectUrl, Map<String, Object> meta) throws MollieException
     {
-        HashMap<String, Object> payData = new HashMap<String, Object>();
+        LinkedHashMap<String, Object> payData = new LinkedHashMap<String, Object>();
 
         if (amount != null)
             payData.put("amount", amount);
@@ -105,7 +105,7 @@ public class Payments extends BaseResource<Payment> {
         if (amount != null)
         {
             Gson gson = new Gson();
-            HashMap<String, Object> refundData = new HashMap<String, Object>();
+            LinkedHashMap<String, Object> refundData = new LinkedHashMap<String, Object>();
 
             refundData.put("amount", amount);
             methodBody = gson.toJson(refundData);

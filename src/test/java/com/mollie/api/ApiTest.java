@@ -87,7 +87,7 @@ public class ApiTest {
 	@Test
 	public void testCreatePaymentFailsEmptyHttpBody() throws MollieException
 	{
-		String msgBody = "{\"amount\":100,\"redirectUrl\":\"http://www.chucknorris.rhk/return.php\",\"description\":\"Order #1337 24 Roundhousekicks\"}";
+		String msgBody = "{\"amount\":100,\"description\":\"Order #1337 24 Roundhousekicks\",\"redirectUrl\":\"http://www.chucknorris.rhk/return.php\"}";
 
 		thrown.expect(MollieException.class);
 		thrown.expectMessage("Unable to decode Mollie response: \"\"");
@@ -112,7 +112,7 @@ public class ApiTest {
 	public void testCreatePaymentFailsError() throws MollieException
 	{
 		String msgReturn = "{ \"error\":{ \"type\":\"request\", \"message\":\"Unauthorized request\", \"links\":{ \"documentation\":\"https://www.mollie.nl/api/docs/\" } } }";
-		String msgBody = "{\"amount\":100,\"redirectUrl\":\"http://www.chucknorris.rhk/return.php\",\"description\":\"Order #1337 24 Roundhousekicks\"}";
+		String msgBody = "{\"amount\":100,\"description\":\"Order #1337 24 Roundhousekicks\",\"redirectUrl\":\"http://www.chucknorris.rhk/return.php\"}";
 
 		thrown.expect(MollieException.class);
 		thrown.expectMessage("Error executing API call (request): Unauthorized request.");
@@ -156,7 +156,7 @@ public class ApiTest {
 	public void testCreatePaymentWorksCorrectly() throws MollieException
 	{
 		String msgReturn = "{ \"id\":\"tr_d0b0E3EA3v\", \"mode\":\"test\", \"createdDatetime\":\"2013-11-21T09:57:08.0Z\", \"status\":\"open\", \"amount\":100, \"description\":\"Order #1225\", \"method\":null, \"details\":null, \"links\":{ \"paymentUrl\":\"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v\" } }";
-		String msgBody = "{\"amount\":100,\"redirectUrl\":\"http://www.chucknorris.rhk/return.php\",\"description\":\"Order #1337 24 Roundhousekicks\"}";
+		String msgBody = "{\"amount\":100,\"description\":\"Order #1337 24 Roundhousekicks\",\"redirectUrl\":\"http://www.chucknorris.rhk/return.php\"}";
 
 		Payment payment = null;
 
