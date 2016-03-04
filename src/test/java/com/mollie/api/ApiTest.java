@@ -35,7 +35,7 @@ import com.mollie.api.objects.*;
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.junit.Before;
@@ -338,7 +338,7 @@ public class ApiTest {
 			MollieClient.HTTP_GET, msgAction, null);
 
 		try {
-			HashMap<String,String> options = new HashMap<String, String>(3);
+			LinkedHashMap<String,String> options = new LinkedHashMap<String, String>(3);
 			options.put("offset", "0");
 			options.put("count", "0");
 			options.put("locale", "de");
