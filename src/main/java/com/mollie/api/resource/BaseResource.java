@@ -38,7 +38,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -301,7 +301,7 @@ abstract public class BaseResource <T> {
         String query = null;
 
         if (options == null) {
-            options = new HashMap<String,String>();
+            options = new LinkedHashMap<String,String>();
         }
 
         if (!options.containsKey("offset")) {
