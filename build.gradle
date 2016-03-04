@@ -11,16 +11,16 @@ repositories {
     // Use 'jcenter' for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
-	mavenCentral()
+    mavenCentral()
 }
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
     // The production code uses the SLF4J logging API at compile time
     //compile 'org.slf4j:slf4j-api:1.7.12'
-	compile 'org.apache.httpcomponents:httpclient:4.5.1'
-	compile 'commons-io:commons-io:2.4'
-	compile 'com.google.code.gson:gson:2.4'
+    compile 'org.apache.httpcomponents:httpclient:4.5.1'
+    compile 'commons-io:commons-io:2.4'
+    compile 'com.google.code.gson:gson:2.4'
 
     // Declare the dependency for your favourite test framework you want to use in your tests.
     // TestNG is also supported by the Gradle Test task. Just change the
@@ -31,32 +31,32 @@ dependencies {
 }
 
 task fatJar(type: Jar) {
-	baseName = project.name + '-all'
-	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-	with jar
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
 
 task sourcesJar(type: Jar) {
-	classifier 'sources'
-	from sourceSets.main.allSource
+    classifier 'sources'
+    from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-	classifier 'javadoc'
-	from javadoc.destinationDir
+    classifier 'javadoc'
+    from javadoc.destinationDir
 }
 
 allprojects {
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
             //options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-			options.bootClasspath = "$System.env.JAVA_HOME/jre/lib/rt.jar"
+            options.bootClasspath = "$System.env.JAVA_HOME/jre/lib/rt.jar"
         }
     }
 }
 
 artifacts {
-	archives fatJar
-	archives javadocJar
-	archives sourcesJar
+    archives fatJar
+    archives javadocJar
+    archives sourcesJar
 }

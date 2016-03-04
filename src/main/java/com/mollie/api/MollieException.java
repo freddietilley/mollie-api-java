@@ -23,30 +23,30 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @license     Berkeley Software Distribution License (BSD-License 2) http://www.opensource.org/licenses/bsd-license.php
- * @author		Freddie Tilley <freddie.tilley@impending.nl>
- * @copyright	Impending
- * @link		http://www.impending.nl
+ * @author      Freddie Tilley <freddie.tilley@impending.nl>
+ * @copyright   Impending
+ * @link        http://www.impending.nl
  */
 package com.mollie.api;
 
 @SuppressWarnings("serial")
 public class MollieException extends Exception {
-	public final String type;
-	public final String message;
-	protected String _field;
+    public final String type;
+    public final String message;
+    protected String _field;
 
-	public MollieException(String message) {
-		super(message);
-		this.type = null;
-		this.message = message;
-	}
+    public MollieException(String message) {
+        super(message);
+        this.type = null;
+        this.message = message;
+    }
 
-	public MollieException(String type, String message) {
-		super("API Error ("+type+"): "+message);
-		this.type = type;
-		this.message = message;
-	}
+    public MollieException(String type, String message) {
+        super("API Error ("+type+"): "+message);
+        this.type = type;
+        this.message = message;
+    }
 
-	public String getField() { return _field; }
-	public void setField(String field) { _field = field; }
+    public String getField() { return _field; }
+    public void setField(String field) { _field = field; }
 }

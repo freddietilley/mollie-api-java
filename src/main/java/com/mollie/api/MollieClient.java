@@ -23,9 +23,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @license     Berkeley Software Distribution License (BSD-License 2) http://www.opensource.org/licenses/bsd-license.php
- * @author		Freddie Tilley <freddie.tilley@impending.nl>
- * @copyright	Impending
- * @link		http://www.impending.nl
+ * @author      Freddie Tilley <freddie.tilley@impending.nl>
+ * @copyright   Impending
+ * @link        http://www.impending.nl
  */
 package com.mollie.api;
 
@@ -55,155 +55,155 @@ import com.mollie.api.resource.Payments;
 import com.mollie.api.resource.PaymentsRefunds;
 
 public class MollieClient {
-	/**
-	 * Version of our client.
-	 */
-	public static final String CLIENT_VERSION = "1.0";
+    /**
+     * Version of our client.
+     */
+    public static final String CLIENT_VERSION = "1.0";
 
-	/**
-	 * Endpoint of the remote API.
-	 */
-	public static final String API_ENDPOINT = "https://api.mollie.nl";
+    /**
+     * Endpoint of the remote API.
+     */
+    public static final String API_ENDPOINT = "https://api.mollie.nl";
 
-	/**
-	 * Version of the remote API.
-	 */
-	public static final String API_VERSION = "v1";
+    /**
+     * Version of the remote API.
+     */
+    public static final String API_VERSION = "v1";
 
-	public static final String HTTP_GET = "GET";
-	public static final String HTTP_POST = "POST";
-	public static final String HTTP_DELETE = "DELETE";
+    public static final String HTTP_GET = "GET";
+    public static final String HTTP_POST = "POST";
+    public static final String HTTP_DELETE = "DELETE";
 
-	protected Methods _methods;
-	protected Payments _payments;
-	protected Issuers _issuers;
+    protected Methods _methods;
+    protected Payments _payments;
+    protected Issuers _issuers;
 
-	protected String _apiEndpoint = API_ENDPOINT;
-	protected String _apiKey;
+    protected String _apiEndpoint = API_ENDPOINT;
+    protected String _apiKey;
 
-	public MollieClient() {
-		this.initResources(this);
-	}
+    public MollieClient() {
+        this.initResources(this);
+    }
 
-	protected void initResources(MollieClient client) {
-		_methods = new Methods(client);
-		_payments = new Payments(client);
-		_issuers = new Issuers(client);
-	}
+    protected void initResources(MollieClient client) {
+        _methods = new Methods(client);
+        _payments = new Payments(client);
+        _issuers = new Issuers(client);
+    }
 
-	public Methods methods() { return _methods; }
-	public Payments payments() { return _payments; }
-	public Issuers issuers() { return _issuers; }
-	public PaymentsRefunds refundsWithPayment(Payment payment) {
-		return new PaymentsRefunds(this, payment.id);
-	}
+    public Methods methods() { return _methods; }
+    public Payments payments() { return _payments; }
+    public Issuers issuers() { return _issuers; }
+    public PaymentsRefunds refundsWithPayment(Payment payment) {
+        return new PaymentsRefunds(this, payment.id);
+    }
 
-	public String apiEndpoint() { return _apiEndpoint; }
-	public void setApiEndpoint(String endpoint) { _apiEndpoint = endpoint; }
+    public String apiEndpoint() { return _apiEndpoint; }
+    public void setApiEndpoint(String endpoint) { _apiEndpoint = endpoint; }
 
-	/**
-	 * Sets the api key
-	 *
-	 * @param apikey api key to set
-	 * @throws MollieException when the api key is invalid.
-	 */
-	public void setApiKey(String apikey) throws MollieException
-	{
-		if (!apikey.matches("^(?:live|test)_\\w+$")) {
-			throw new MollieException("Invalid api key: \"" + apikey + "\". An API key must start with \"test_\" or \"live_\".");
-		}
-		_apiKey = apikey;
-	}
+    /**
+     * Sets the api key
+     *
+     * @param apikey api key to set
+     * @throws MollieException when the api key is invalid.
+     */
+    public void setApiKey(String apikey) throws MollieException
+    {
+        if (!apikey.matches("^(?:live|test)_\\w+$")) {
+            throw new MollieException("Invalid api key: \"" + apikey + "\". An API key must start with \"test_\" or \"live_\".");
+        }
+        _apiKey = apikey;
+    }
 
-	/**
-	 * Perform a http call with an empty body. This method is used by the
-	 * resource specific classes. Please use the payments() method to perform
-	 * operations on payments.
-	 *
-	 * @param method the http method to use
-	 * @param apiMethod the api method to call
-	 * @return result of the http call
-	 * @throws MollieException when the api key is not set or when there is a
-	 * problem communicating with the mollie server.
-	 * @see #performHttpCall(String method, String apiMethod, String httpBody)
-	 */
-	public String performHttpCall(String method, String apiMethod) throws MollieException
-	{
-		return performHttpCall(method, apiMethod, null);
-	}
+    /**
+     * Perform a http call with an empty body. This method is used by the
+     * resource specific classes. Please use the payments() method to perform
+     * operations on payments.
+     *
+     * @param method the http method to use
+     * @param apiMethod the api method to call
+     * @return result of the http call
+     * @throws MollieException when the api key is not set or when there is a
+     * problem communicating with the mollie server.
+     * @see #performHttpCall(String method, String apiMethod, String httpBody)
+     */
+    public String performHttpCall(String method, String apiMethod) throws MollieException
+    {
+        return performHttpCall(method, apiMethod, null);
+    }
 
-	/**
-	 * Perform a http call. This method is used by the resource specific classes.
-	 * Please use the payments() method to perform operations on payments.
-	 *
-	 * @param method the http method to use
-	 * @param apiMethod the api method to call
-	 * @param httpBody the contents to send to the server.
-	 * @return result of the http call
-	 * @throws MollieException when the api key is not set or when there is a
-	 * problem communicating with the mollie server.
-	 * @see #performHttpCall(String method, String apiMethod)
-	 */
-	public String performHttpCall(String method, String apiMethod, String httpBody) throws MollieException
-	{
-		URI uri = null;
-		String result = null;
+    /**
+     * Perform a http call. This method is used by the resource specific classes.
+     * Please use the payments() method to perform operations on payments.
+     *
+     * @param method the http method to use
+     * @param apiMethod the api method to call
+     * @param httpBody the contents to send to the server.
+     * @return result of the http call
+     * @throws MollieException when the api key is not set or when there is a
+     * problem communicating with the mollie server.
+     * @see #performHttpCall(String method, String apiMethod)
+     */
+    public String performHttpCall(String method, String apiMethod, String httpBody) throws MollieException
+    {
+        URI uri = null;
+        String result = null;
 
-		if (_apiKey == null || _apiKey.trim().equals(""))
-		{
-			throw new MollieException("You have not set an api key. Please use setApiKey() to set the API key.");
-		}
+        if (_apiKey == null || _apiKey.trim().equals(""))
+        {
+            throw new MollieException("You have not set an api key. Please use setApiKey() to set the API key.");
+        }
 
-		try {
-			URIBuilder ub = new URIBuilder(this._apiEndpoint + "/" + API_VERSION + "/" + apiMethod);
-			uri = ub.build();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+        try {
+            URIBuilder ub = new URIBuilder(this._apiEndpoint + "/" + API_VERSION + "/" + apiMethod);
+            uri = ub.build();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
-		if (uri != null)
-		{
-			CloseableHttpClient httpclient = HttpClientBuilder.create().build();
-			HttpRequestBase action = null;
-			HttpResponse response = null;
+        if (uri != null)
+        {
+            CloseableHttpClient httpclient = HttpClientBuilder.create().build();
+            HttpRequestBase action = null;
+            HttpResponse response = null;
 
-			if (method.equals(HTTP_POST)) {
-				action = new HttpPost(uri);
-			} else if (method.equals(HTTP_DELETE)) {
-				action = new HttpDelete(uri);
-			} else {
-				action = new HttpGet(uri);
-			}
+            if (method.equals(HTTP_POST)) {
+                action = new HttpPost(uri);
+            } else if (method.equals(HTTP_DELETE)) {
+                action = new HttpDelete(uri);
+            } else {
+                action = new HttpGet(uri);
+            }
 
-			if (httpBody != null && action instanceof HttpPost)
-			{
-				StringEntity entity = new StringEntity(httpBody, ContentType.APPLICATION_JSON);
-				((HttpPost)action).setEntity(entity);
-			}
+            if (httpBody != null && action instanceof HttpPost)
+            {
+                StringEntity entity = new StringEntity(httpBody, ContentType.APPLICATION_JSON);
+                ((HttpPost)action).setEntity(entity);
+            }
 
-			action.setHeader("Authorization", "Bearer " + this._apiKey);
-			action.setHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
+            action.setHeader("Authorization", "Bearer " + this._apiKey);
+            action.setHeader("Accept", ContentType.APPLICATION_JSON.getMimeType());
 
-			try {
-				response = httpclient.execute(action);
+            try {
+                response = httpclient.execute(action);
 
-				HttpEntity entity = response.getEntity();
-				StringWriter sw = new StringWriter();
+                HttpEntity entity = response.getEntity();
+                StringWriter sw = new StringWriter();
 
-				IOUtils.copy(entity.getContent(), sw, "UTF-8");
-				result = sw.toString();
-				EntityUtils.consume(entity);
-			} catch (Exception e) {
-				throw new MollieException("Unable to communicate with Mollie");
-			}
+                IOUtils.copy(entity.getContent(), sw, "UTF-8");
+                result = sw.toString();
+                EntityUtils.consume(entity);
+            } catch (Exception e) {
+                throw new MollieException("Unable to communicate with Mollie");
+            }
 
-			try {
-				httpclient.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
-		return result;
-	}
+        return result;
+    }
 }

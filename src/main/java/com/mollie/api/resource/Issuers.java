@@ -23,9 +23,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @license     Berkeley Software Distribution License (BSD-License 2) http://www.opensource.org/licenses/bsd-license.php
- * @author		Freddie Tilley <freddie.tilley@impending.nl>
- * @copyright	Impending
- * @link		http://www.impending.nl
+ * @author      Freddie Tilley <freddie.tilley@impending.nl>
+ * @copyright   Impending
+ * @link        http://www.impending.nl
  */
 package com.mollie.api.resource;
 
@@ -33,7 +33,7 @@ import com.mollie.api.MollieClient;
 import com.mollie.api.objects.Issuer;
 
 public class Issuers extends BaseResource<Issuer> {
-	public Issuers(MollieClient api) {
-		super(api);
-	}
+    public Issuers(MollieClient api) {
+        super(api);
+    }
 }

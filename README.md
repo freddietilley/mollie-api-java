@@ -19,42 +19,42 @@ gradle build
 Initializing the Mollie API client, and setting your API key.
 
 ```java
-	MollieClient client = new MollieClient();
-	try {
-		client.setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
-	} catch (MollieException e) {
-		e.printStackTrace();
-	}
+    MollieClient client = new MollieClient();
+    try {
+        client.setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+    } catch (MollieException e) {
+        e.printStackTrace();
+    }
 ```
 
 Creating a new payment.
 
 ```java
-	try {
-		Payment payment = client.payments().create(new BigDecimal("10.00"),
-			"My first API payment",
-			"https://webshop.example.org/order/12345/",
-			null
-		);
-	} catch (MollieException e) {
-		e.printStackTrace();
-	}
+    try {
+        Payment payment = client.payments().create(new BigDecimal("10.00"),
+            "My first API payment",
+            "https://webshop.example.org/order/12345/",
+            null
+        );
+    } catch (MollieException e) {
+        e.printStackTrace();
+    }
 ```
 
 _After creation, the payment id is available in the `payment.id` property. You should store this id with your order._
-	
+    
 Retrieving a payment.
 
 ```java
-	try {
-		Payment payment = client.payments().get(payment.id);
+    try {
+        Payment payment = client.payments().get(payment.id);
 
-		if (payment.isPaid()) {
-			System.out.println("Payment received.");
-		}
-	} catch (MollieException e) {
-		e.printStackTrace();
-	}
+        if (payment.isPaid()) {
+            System.out.println("Payment received.");
+        }
+    } catch (MollieException e) {
+        e.printStackTrace();
+    }
 ```
 
 ## License ##

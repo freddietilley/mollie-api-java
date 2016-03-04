@@ -23,29 +23,29 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @license     Berkeley Software Distribution License (BSD-License 2) http://www.opensource.org/licenses/bsd-license.php
- * @author		Freddie Tilley <freddie.tilley@impending.nl>
- * @copyright	Impending
- * @link		http://www.impending.nl
+ * @author      Freddie Tilley <freddie.tilley@impending.nl>
+ * @copyright   Impending
+ * @link        http://www.impending.nl
  */
 package com.mollie.api.objects;
 
 public class Issuer {
-	/**
-	 * Id of the issuer.
-	 */
-	private String id;
+    /**
+     * Id of the issuer.
+     */
+    private String id;
 
-	/**
-	 * Name of the issuer.
-	 */
-	private String name;
+    /**
+     * Name of the issuer.
+     */
+    private String name;
 
-	/**
-	 * The payment method this issuer belongs to.
-	 */
-	private String method;
+    /**
+     * The payment method this issuer belongs to.
+     */
+    private String method;
 
-	public String getId() { return id; }
-	public String getName() { return name; }
-	public String getMethod() { return method; }
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public String getMethod() { return method; }
 }
