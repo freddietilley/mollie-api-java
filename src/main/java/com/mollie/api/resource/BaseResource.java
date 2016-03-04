@@ -274,7 +274,7 @@ abstract public class BaseResource <T> {
 		try {
 			ub = new URIBuilder();
 
-			for (HashMap.Entry<String, String> entry : options.entrySet()) {
+			for (Map.Entry<String, String> entry : options.entrySet()) {
 				ub.addParameter(entry.getKey(), entry.getValue());
 			}
 
@@ -304,8 +304,13 @@ abstract public class BaseResource <T> {
 			options = new HashMap<String,String>();
 		}
 
-		options.putIfAbsent("offset", Integer.toString(offset));
-		options.putIfAbsent("count", Integer.toString(limit));
+		if (!options.containsKey("offset")) {
+			options.put("offset", Integer.toString(offset));
+		}
+
+		if (!options.containsKey("count")) {
+			options.put("count", Integer.toString(limit));
+		}
 
 		query = buildQueryFromMap(options);
 		String apiPath = restResource + (query != null ? "?" + query : "");
